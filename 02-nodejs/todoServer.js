@@ -41,9 +41,55 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
 
 app.use(bodyParser.json());
+
+const port = 3000
+
+let todos = [{
+  id:1,
+  title:"Todo 1",
+  description:"Brush your teeth"
+},
+{
+  id:2,
+  title:"Todo 2",
+  description:"Eat Breakfast"
+},
+{
+  id:3,
+  title:"Todo 3",
+  description:"Connect to api"
+},]
+
+
+
+app.get('/todos', (req, res) => {
+  res.json(todos)
+  
+})
+
+
+
+app.post('/todos', (req, res) => {
+  console.log(req);
+  const newTodo = {
+    id :Math.floor(Math.random() * 1000000), // unique random id
+    title : req.body.title,
+    description :req.body.description
+  };
+  console.log(newTodo);
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+
+
 
 module.exports = app;
